@@ -4,6 +4,7 @@ require 'data_objects'
 # Handle DB options.
 #
 options = {}
+ENV['DATABASE_URL'] ||= 'postgres://localhost/trunk_cocoapods_org_development'
 uri = DataObjects::URI::parse(ENV['DATABASE_URL'])
 [:host, :port, :user, :password].each do |key|
   val = uri.send(key)

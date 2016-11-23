@@ -25,6 +25,8 @@ class App < Sinatra::Base
   post '/pods/:name' do
     metrics = JSON.load(request.body)
 
+    ENV['COCOADOCS_TOKEN'] ||= '1234'
+
     if ENV['COCOADOCS_TOKEN'] != metrics["token"]
       halt 401, "You're not CocoaDocs!\n"
     end
@@ -64,7 +66,7 @@ class App < Sinatra::Base
     github_stats = github_pod_metrics.where(github_pod_metrics[:pod_id] => pod.id).first
     cocoapods_stats = stats_metrics.where(pod_id: pod.id).first
     owners = owners_pods.outer_join(:owners).on(:owner_id => :id).where(:pod_id => pod.id)
-    data[:quality_estimate] = QualityModifiers.new.generate(spec, data, github_stats, cocoapods_stats, owners)
+    # data[:quality_estimate] = QualityModifiers.new.generate(spec, data, github_stats, cocoapods_stats, owners)
 
     # update or create a metrics
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first
@@ -73,7 +75,7 @@ class App < Sinatra::Base
     else
       data[:created_at] = Time.new
       cocoadocs_pod_metrics.insert(data).kick.to_json
-      tweet_if_needed spec, data[:quality_estimate]
+      # tweet_if_needed spec, data[:quality_estimate]
     end
 
     metric = cocoadocs_pod_metrics.where(cocoadocs_pod_metrics[:pod_id] => pod.id).first

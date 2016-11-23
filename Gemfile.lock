@@ -102,5 +102,8 @@ DEPENDENCIES
   thin
   twitter
 
+RUBY VERSION
+   ruby 2.1.3p242
+
 BUNDLED WITH
-   1.10.6
+   1.13.6

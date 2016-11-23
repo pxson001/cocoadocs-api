@@ -9,7 +9,7 @@ end
 
 desc 'Start up the dynamic site'
 task :serve do
-  sh "bundle exec foreman start"
+  sh "env PORT=6666 bundle exec foreman start"
 end
 
 desc "Deploy to heroku"
